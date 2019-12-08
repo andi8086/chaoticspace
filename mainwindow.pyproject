@@ -1,0 +1,3 @@
+{
+    "files": ["partsDialog.ui","categoriesDialog.ui","mainwindow.py","mainwindow.ui","placesDialog.ui","partsManageDialog.ui"]
+}
