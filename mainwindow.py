@@ -52,6 +52,12 @@ def MapResultsToTable(res, table, vars):
         for k, v in enumerate(vars):
             table.setItem(rowCount-1, k, QTableWidgetItem(str(v)))
 
+def UpdateView(self, table, tablename, keys):
+    table.setRowCount(0)
+    res = SQLExec(self, "SELECT * FROM {} WHERE 1;".format(tablename))
+    MapResultsToTable(res, table, keys)
+    res.close()
+
 
 class PartsManageDialog(QDialog):
     def __init__(self, parent, cnx):
@@ -64,10 +70,10 @@ class PartsManageDialog(QDialog):
         self.partsTable.setSortingEnabled(True)
         self.partsTable.setStyleSheet('QTableView {background-color: #000000; color:#777777;}')
         self.Icon_IC = QIcon(os.path.join(os.path.join(APPDIR, 'icons'), 'integrated-circuit2.png'))
-        self.updateView()
+        self.update()
         self.show()
 
-    def updateView(self):
+    def update(self):
         self.partsTable.setRowCount(0)
         cursor = self.cnx.cursor()
         try:
@@ -129,15 +135,11 @@ class CatManageDialog(QDialog):
         self.createButton.clicked.connect(self.createCat)
         self.cnx = cnx
         InitTable(self.categoriesTable, [30, 250, 400])
-        self.updateView()
+        self.update()
         self.show()
 
-    def updateView(self):
-        self.categoriesTable.setRowCount(0)
-        statement = "SELECT * FROM categories WHERE 1;"
-        res = SQLExec(self, statement)
-        MapResultsToTable(res, self.categoriesTable, ["ID", "Name", "Desc"])
-        res.close()
+    def update(self):
+        UpdateView(self, self.categoriesTable, "categories", ["ID", "Name", "Desc"])
 
     def createCat(self, event):
         cName = self.catName.text()
@@ -153,15 +155,11 @@ class PlaceManageDialog(QDialog):
         self.createButton.clicked.connect(self.createPlace)
         self.cnx = cnx
         InitTable(self.placesTable, [30, 250, 400])
-        self.updateView()
+        self.update()
         self.show()
 
-    def updateView(self):
-        self.placesTable.setRowCount(0)
-        res = SQLExec(self, "SELECT * FROM places WHERE 1;")
-        MapResultsToTable(res, self.placesTable, ["ID", "Name", "Desc"])
-        res.close()
-
+    def update(self):
+        UpdateView(self, self.placesTable, "places", ["ID", "Name", "Desc"])
 
     def createPlace(self, event):
         pName = self.placeName.text()
@@ -175,7 +173,6 @@ class PartsDialog(QDialog):
         super().__init__(parent)
         uic.loadUi(os.path.join(Path(__file__).parent,'partsDialog.ui'), self)
         self.partName.textChanged.connect(self.newInput)
-        self.results.setHorizontalHeaderLabels(self.resultHeader)
         InitTable(self.results, [300, 400, 150, 300])
         self.cnx = cnx
         self.show()
@@ -236,4 +233,3 @@ if __name__ == "__main__":
     app.setFont(f)
     window.show()
     sys.exit(app.exec_())
-
