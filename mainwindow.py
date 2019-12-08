@@ -33,7 +33,6 @@ def SQLExec(self, statement):
     except connector.Error as err:
         MySQLError(self, err)
 
-
 def SetColWidths(table, widthlist):
     for k, v in enumerate(widthlist):
         table.setColumnWidth(k, v)
@@ -75,14 +74,11 @@ class PartsManageDialog(QDialog):
 
     def update(self):
         self.partsTable.setRowCount(0)
-        cursor = self.cnx.cursor()
-        try:
-            cursor.execute("SELECT * FROM parts, places, categories WHERE parts.fkPlace = places.pkID AND parts.fkCategory = categories.pkID;")
-        except connector.Error as err:
-            MySQLError(self, err)
+        statement = "SELECT * FROM parts, places, categories WHERE parts.fkPlace = places.pkID AND parts.fkCategory = categories.pkID;"
+        res = SQLExec(self, statement)
 
         rowCount = 0
-        for (pkID, pName, pCount, fkPlace, pDesc, fkCat, pComments, placepkID, placeName, placeDesc, catpkID, catName, catDesc) in cursor:
+        for (pkID, pName, pCount, fkPlace, pDesc, fkCat, pComments, placepkID, placeName, placeDesc, catpkID, catName, catDesc) in res:
             rowCount += 1
             self.partsTable.setRowCount(rowCount)
             self.partsTable.setItem(rowCount-1, 0, QTableWidgetItem(str(pkID)))
@@ -100,16 +96,17 @@ class PartsManageDialog(QDialog):
             commItem = QTableWidgetItem(str(pComments))
             commItem.setToolTip(str(pComments))
             self.partsTable.setItem(rowCount-1, 6, commItem)
+        res.close()
 
         res = SQLExec(self, "SELECT * FROM places WHERE 1;")
         self.partPlace.clear()
-        for (pkID, pName, pDesc) in cursor:
+        for (pkID, pName, pDesc) in res:
             self.partPlace.addItem(pName, {'pkID': pkID})
         res.close()
 
         res = SQLExec(self, "SELECT * FROM categories WHERE 1;")
         self.partCategory.clear()
-        for (pkID, cName, cDesc) in cursor:
+        for (pkID, cName, cDesc) in res:
             self.partCategory.addItem(cName, {'pkID': pkID})
         res.close()
 
@@ -173,16 +170,17 @@ class PartsDialog(QDialog):
         super().__init__(parent)
         uic.loadUi(os.path.join(Path(__file__).parent,'partsDialog.ui'), self)
         self.partName.textChanged.connect(self.newInput)
-        InitTable(self.results, [300, 400, 150, 300])
+        InitTable(self.results, [50, 300, 400, 50, 300])
         self.cnx = cnx
         self.show()
 
     def newInput(self, event):
         self.results.setRowCount(0)
-        statement = "SELECT * FROM parts WHERE parts.name LIKE \"{}\";".format(
+        statement = """SELECT parts.pkID,parts.name,categories.name,count,places.name,comments FROM parts,places,categories
+                       WHERE parts.name LIKE \"{}\" AND places.pkID = fkplace AND categories.pkID = fkcategory;""".format(
                 self.partName.text().replace("*", "%"))
         res = SQLExec(self, statement)
-        MapResultsToTable(res, self.results, ["name", "count", "desc", "place", "comment"])
+        MapResultsToTable(res, self.results, ["ID", "name", "category", "count", "place", "comment"])
         res.close()
         self.results.update()
 
