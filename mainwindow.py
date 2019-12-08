@@ -178,7 +178,12 @@ class PartsDialog(QDialog):
         self.show()
 
     def newInput(self, event):
-        self.results.setItem(0, 1, QTableWidgetItem("blabla"))
+        self.results.setRowCount(0)
+        statement = "SELECT * FROM parts WHERE parts.name LIKE \"{}\";".format(
+                self.partName.text().replace("*", "%"))
+        res = SQLExec(self, statement)
+        MapResultsToTable(res, self.results, ["name", "count", "desc", "place", "comment"])
+        res.close()
         self.results.update()
 
 
