@@ -52,6 +52,11 @@
          <string>Place</string>
         </property>
        </column>
+       <column>
+        <property name="text">
+         <string>OP1</string>
+        </property>
+       </column>
       </widget>
      </item>
      <item row="0" column="0">

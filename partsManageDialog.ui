@@ -53,90 +53,12 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="3" rowspan="5">
-      <widget class="QPushButton" name="createButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Create</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Name</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="2">
-      <widget class="QLineEdit" name="partDesc"/>
-     </item>
-     <item row="3" column="1">
-      <widget class="QComboBox" name="partPlace"/>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="partName"/>
-     </item>
-     <item row="1" column="2">
-      <widget class="QLineEdit" name="partCount"/>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Place</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="2">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>Comments</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>100</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item row="5" column="2" rowspan="2" colspan="2">
-      <widget class="QPlainTextEdit" name="partComments">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>16777215</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1" rowspan="2" colspan="3">
+     <item row="9" column="1" rowspan="2" colspan="3">
       <widget class="QTableWidget" name="partsTable">
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>480</height>
+         <height>380</height>
         </size>
        </property>
        <column>
@@ -174,6 +96,121 @@
          <string>Comments</string>
         </property>
        </column>
+       <column>
+        <property name="text">
+         <string>Delta1</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>OP1</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+     <item row="0" column="3" rowspan="5">
+      <widget class="QPushButton" name="createButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Create</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>100</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLineEdit" name="partDesc"/>
+     </item>
+     <item row="3" column="1">
+      <widget class="QComboBox" name="partPlace"/>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="partName"/>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="partCount"/>
+     </item>
+     <item row="5" column="2" rowspan="2" colspan="2">
+      <widget class="QPlainTextEdit" name="partComments">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Place</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="1">
+      <widget class="QLineEdit" name="searchName"/>
+     </item>
+     <item row="4" column="2">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Comments</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>Search Name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="2">
+      <widget class="QLabel" name="label_8">
+       <property name="text">
+        <string>Search Description</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="2">
+      <widget class="QLineEdit" name="searchDesc"/>
+     </item>
+     <item row="8" column="3">
+      <widget class="QPushButton" name="pushButton">
+       <property name="text">
+        <string>Search</string>
+       </property>
       </widget>
      </item>
     </layout>

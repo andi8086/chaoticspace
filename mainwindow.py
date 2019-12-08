@@ -69,8 +69,35 @@ class PartsManageDialog(QDialog):
         self.partsTable.setSortingEnabled(True)
         self.partsTable.setStyleSheet('QTableView {background-color: #000000; color:#777777;}')
         self.Icon_IC = QIcon(os.path.join(os.path.join(APPDIR, 'icons'), 'integrated-circuit2.png'))
+
+        self.searchName.textChanged.connect(self.onSearchNameChange)
+
         self.update()
         self.show()
+
+    def onSearchNameChange(self, event):
+        self.partsTable.setRowCount(0)
+        statement = """SELECT parts.pkID,parts.name,count,places.name,parts.description,categories.name,comments FROM parts,places,categories
+                       WHERE parts.name LIKE \"{}\" AND places.pkID = fkplace AND categories.pkID = fkcategory;""".format(
+                self.searchName.text().replace("*", "%"))
+        res = SQLExec(self, statement)
+        MapResultsToTable(res, self.partsTable, ["ID", "name", "count", "place", "description", "category", "comment"])
+        res.close()
+        self.partsTable.update()
+        self.partsTable.setEditTriggers(QAbstractItemView.DoubleClicked)
+        for i in range(0, self.partsTable.rowCount()):
+            for j in range(0, 6):
+                item = self.partsTable.item(i, j)
+                item.setFlags(item.flags() & ~QtCore.Qt.ItemIsEditable)
+            id = int(self.partsTable.item(i, 0).text())
+            op1 = QPushButton("+/-")
+            op1.clicked.connect(lambda state, x=id, y=i: self.changeItemCount(y, x))
+            self.partsTable.setItem(i, 7, QTableWidgetItem("0"))
+            self.partsTable.setCellWidget(i, 8, op1)
+
+    def changeItemCount(self, row, id):
+
+        QMessageBox.information(self, "Change Item Count", "Row {}, id {}".format(row, id))
 
     def update(self):
         self.partsTable.setRowCount(0)
@@ -182,7 +209,7 @@ class PartsDialog(QDialog):
         res = SQLExec(self, statement)
         MapResultsToTable(res, self.results, ["ID", "name", "category", "count", "place", "comment"])
         res.close()
-        self.results.update()
+        self.results.update(y)
 
 
 class MainWindow(QMainWindow):
